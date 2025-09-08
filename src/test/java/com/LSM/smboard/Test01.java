@@ -41,13 +41,11 @@ public class Test01 {
 	@DisplayName("모든 질문글 조회하기 테스트")
 	public void testJpa2() {
 		 List<Question> allQuestion = questionRepository.findAll();
-		 assertEquals(2, allQuestion.size()); //예상 결과 확인하기(기대값,실제값)
+		 assertEquals(16, allQuestion.size()); //예상 결과 확인하기(기대값,실제값)
 		// System.out.println("기대값:"+allQuestion.size());
-		 Question question = allQuestion.get(0);
-		 assertEquals("sbb가 뭔가요", question.getSubject());
-		 System.out.print("=============");
-		 System.out.print(allQuestion.get(0));
-		 System.out.print("=============");
+		 Question question = allQuestion.get(1);
+		 assertEquals("스프링부트가 뭔가요", question.getSubject());
+		
 	}
 	
 	@Test
@@ -67,6 +65,22 @@ public class Test01 {
 		Question question = questionRepository.findBySubject("sbb가 뭔가요");
 		//select * from question where subject='sbb가뭔가요'
 		assertEquals(1, question.getId());
+	}
+	
+	@Test
+	@DisplayName("제목으로 조회한 글의 번호가 2번인지 테스트")
+	public void testJpa5() {
+		Question question = questionRepository.findBySubjectAndContent("sbb가 뭔가요","sbb에 대해 알려주세요");
+		//select * from question where subject='sbb가뭔가요'
+		assertEquals(1, question.getId());
+	}
+	
+	@Test
+	@DisplayName("제목에 특정 단어가 들어간 레코드를 조회한 글 테스트")
+	public void testJpa6() {
+		List<Question> questionList = questionRepository.findBySubjectLike("sbb%");
+		Question questions = questionList.get(0);
+		assertEquals("sbb가 뭔가요", questions.getSubject());
 	}
 	
 }
