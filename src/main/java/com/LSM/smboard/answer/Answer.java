@@ -1,8 +1,10 @@
-package com.LSM.smboard.entity;
+package com.LSM.smboard.answer;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+
+import com.LSM.smboard.question.Question;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

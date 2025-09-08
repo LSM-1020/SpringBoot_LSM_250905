@@ -1,8 +1,7 @@
-package com.LSM.smboard.repository;
+package com.LSM.smboard.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.LSM.smboard.entity.Question;
 import java.util.List;
 
 
