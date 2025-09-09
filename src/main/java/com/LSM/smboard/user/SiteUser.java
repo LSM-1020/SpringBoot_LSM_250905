@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "siteuser") //실제로 매핑될 데이터베이스의 테이블 이름 설정
+@Table(name = "SITEUSER") //실제로 매핑될 데이터베이스의 테이블 이름 설정
 @SequenceGenerator(
 		name = "USER_SEQ_GENERATOR", //JPA 내부 시퀀스 이름
 		sequenceName = "USER_SEQ", //실제 DB 시퀀스 이름 
