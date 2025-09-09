@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.LSM.smboard.DataNotFoundException;
+import com.LSM.smboard.user.SiteUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,11 +32,12 @@ public class QuestionService {
 		}
 	}
 	
-	public void create(String subject, String content) {
+	public void create(String subject, String content, SiteUser author) {
 		Question question = new Question();
 		question.setSubject(subject);
 		question.setContent(content);
 		question.setCreatedate(LocalDateTime.now());
+		question.setAuthor(author);
 		questionRepository.save(question);
 		
 	}

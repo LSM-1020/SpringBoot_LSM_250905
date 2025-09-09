@@ -1,9 +1,13 @@
 package com.LSM.smboard.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.LSM.smboard.DataNotFoundException;
 
 @Service
 public class UserService {
@@ -27,5 +31,16 @@ public class UserService {
 		return user;
 	}
 	
+	public SiteUser getUser(String username) {
+		Optional<SiteUser> _siteUser = userRepository.findByUsername(username);
+		if(_siteUser.isPresent()) {
+			SiteUser siteUser = _siteUser.get();
+			return siteUser;
+		} else {
+			throw new DataNotFoundException("해당 유저는 존재하지 않습니다");
+		}
+	
+	
+	}
 
 }

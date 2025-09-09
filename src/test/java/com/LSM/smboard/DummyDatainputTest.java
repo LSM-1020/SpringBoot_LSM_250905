@@ -17,7 +17,7 @@ public class DummyDatainputTest {
 		for(int i=1; i<=300; i++) { //300개 질문더미 데이터생성
 			String subject = String.format("테스트 데이터입니다:[%03d]", i);
 			String content = "연습내용 더미데이터입니다";
-			questionService.create(subject, content);
+			questionService.create(subject, content,null);
 		}
 		
 	}
