@@ -18,7 +18,7 @@ public class QuestionService {
 	private final QuestionRepository questionRepository;
 	//@requiredArgsconstructor에 의해 생성자 방식으로 주입된 questionRepository (final필드만 가능)
 	
-	public List<Question> getList() {//모든 질문글 가져오기
+	public List<Question> getList() {//모든 질문글 가져오기->페이징
 		return this.questionRepository.findAll();
 	}
 	
