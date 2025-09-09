@@ -46,5 +46,14 @@ public class UserController {
 			return "signup_form";
 		}
 			return "redirect:/question/list";//첫 화면으로 이동
-}
+		}
+		@GetMapping(value="/login")
+		public String login() {
+			
+			return "login_form";
+		}
+	
+	
+	
+	
 }

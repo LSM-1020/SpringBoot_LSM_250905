@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "SITEUSER") //실제로 매핑될 데이터베이스의 테이블 이름 설정
+@Table(name = "siteuser") //실제로 매핑될 데이터베이스의 테이블 이름 설정
 @SequenceGenerator(
 		name = "USER_SEQ_GENERATOR", //JPA 내부 시퀀스 이름
 		sequenceName = "USER_SEQ", //실제 DB 시퀀스 이름 
@@ -29,10 +29,10 @@ public class SiteUser {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")	
 	private Long id; //유저번호, 기본키
 	
-	@Column(unique= true) //아이디는 중복 불가
+	@Column(name="username",unique= true) //아이디는 중복 불가
 	private String username; //유저 아이디
 	
 	private String password;
-	@Column(unique= true) 
+	@Column(name="email",unique= true) 
 	private String email;
 }
