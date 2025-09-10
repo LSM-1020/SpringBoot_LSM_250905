@@ -35,8 +35,11 @@
 		<form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
 			<!-- 유효성 체크 에러 표시 -->
 			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
-		
-			<textarea rows="15" cols="40" th:field="*{content}" class="form-control"></textarea>
+			
+			<!-- 로그인하지 않으면 답변입력란 보이지않음 -->
+			<textarea sec:authorize="isAnonymous()" disabled rows="10" cols="40" th:field="*{content}" class="form-control"></textarea>
+			<!-- 로그인하면 답변입력 가능 -->
+			<textarea sec:authorize="isAuthenticated()" rows="10" cols="40" th:field="*{content}" class="form-control"></textarea>
 			<input type="submit" value="답변 등록" class="btn btn-primary my-2">
 		</form>
 	</div>
