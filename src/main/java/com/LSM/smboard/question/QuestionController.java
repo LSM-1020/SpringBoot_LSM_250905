@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.LSM.smboard.answer.AnswerForm;
+import com.LSM.smboard.answer.AnswerService;
 import com.LSM.smboard.user.SiteUser;
 import com.LSM.smboard.user.UserService;
 
@@ -27,6 +28,8 @@ import jakarta.validation.Valid;
 @RequestMapping("/question") //prefix(접두사)
 @Controller
 public class QuestionController {
+
+    private final AnswerService answerService;
 	
 //	@Autowired
 //	private QuestionRepository questionRepository;
@@ -36,6 +39,11 @@ public class QuestionController {
 	
 	@Autowired
 	private UserService userService;
+
+
+    QuestionController(AnswerService answerService) {
+        this.answerService = answerService;
+    }
 	
 	
 	@GetMapping(value = "/list")
@@ -75,7 +83,7 @@ public class QuestionController {
 //		
 //		return "redirect:/question/list"; //질문 리스트로 이동->반드시 redirect
 //	}
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()") //권한 설정, form에서 action으로 넘어오지 않으면 권한인증이 안됨
 	@PostMapping(value = "/create") //질문 내용을 DB에 저장하는 메서드->POST
 	public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {		
 		
@@ -83,11 +91,12 @@ public class QuestionController {
 			return "question_form"; //에러 발생 시 다시 질문 등록 폼으로 이동
 		}
 		SiteUser siteUser = userService.getUser(principal.getName());
+		//현재 로그인된 username으로 siteuser
 		questionService.create(questionForm.getSubject(), questionForm.getContent(),siteUser); //질문 DB에 등록하기
 		
 		return "redirect:/question/list"; //질문 리스트로 이동->반드시 redirect
 	}
-	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value="/modify/{id}")
 	public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
 		Question question = questionService.getQuestion(id);//아이디에 해당하는 엔티티 반환->수정하려는 글의 엔티티
@@ -103,4 +112,33 @@ public class QuestionController {
 		
 		return "question_form";
 	}
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value="/modify/{id}")
+	public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult,Principal principal,@PathVariable("id") Integer id) {
+		if(bindingResult.hasErrors()) {
+			return "question_form";
+		}
+		
+		Question question = questionService.getQuestion(id);
+		//글쓴 유저와 로그인한 유저의 동일 여부 재확인
+				if(!question.getAuthor().getUsername().equals(principal.getName())) { //참이면 수정권한 없음
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다");
+				}
+				questionService.modify(question,questionForm.getSubject(),questionForm.getContent());
+		return String.format("redirect:/question/detail/%s", id);
+	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/delete/{id}")
+	public String delete(Principal principal,@PathVariable("id") Integer id) {
+		
+		Question question = questionService.getQuestion(id);
+		//글쓴 유저와 로그인한 유저의 동일 여부 재확인
+				if(!question.getAuthor().getUsername().equals(principal.getName())) { //참이면 수정권한 없음
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제권한이 없습니다");
+				}
+				questionService.delete(question);
+				return "redirect:/question/list";
+	}
 }
+
+
