@@ -40,7 +40,8 @@
 			<textarea sec:authorize="isAnonymous()" disabled rows="10" cols="40" th:field="*{content}" class="form-control"></textarea>
 			<!-- 로그인하면 답변입력 가능 -->
 			<textarea sec:authorize="isAuthenticated()" rows="10" cols="40" th:field="*{content}" class="form-control"></textarea>
-			<input type="submit" value="답변 등록" class="btn btn-primary my-2">
+			<input type="submit" value="답변 등록" sec:authorize="isAnonymous()" class="btn btn-primary my-2" disabled>
+			<input type="submit" value="답변 등록" sec:authorize="isAuthenticated()" class="btn btn-primary my-2">
 		</form>
 	</div>
 </html>
