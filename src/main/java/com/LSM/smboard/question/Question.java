@@ -2,6 +2,7 @@ package com.LSM.smboard.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
@@ -61,5 +63,8 @@ public class Question {
 	
 	private LocalDateTime modifydate; //질문글 수정 일시
 	
-	
+	//N:N관계 질문:추천자 
+	@ManyToMany
+	Set<SiteUser> voter; //추천한 유저가 중복없이 여러명의 유저가 저장, 추천수
+	//set-> 중복 제거용 컬랙션
 }

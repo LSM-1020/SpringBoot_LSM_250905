@@ -8,23 +8,36 @@
 				<div class="card-text" style="white-space: pre-line;"
 				th:text="${question.content}">내용</div>
 				<div class="d-flex justify-content-end">
-				<div class="badge db-light text-dark p-2 text=start">
+			<!-- 질문 수정 일시 출력-->	
+				<div th:if="${question.modifydate !=null}" class="badge bg-light text-dark p-2 text-start mx-3">
+					<div class="mb-2">질문 수정 일시</div>
+					<div th:text="${#temporals.format(question.modifydate, 'yyyy-MM-dd HH:mm')}"></div>
+				</div>
+			<!-- 질문글 글쓴이 / 등록 일시 -->
+				<div class="badge bg-light text-dark p-2 text-start">
 					<div class="mb-2">
-							<span th:if="${question.author !=null}" th:text="${question.author.username}">
-							</span>
+							<span th:if="${question.author !=null}" th:text="${question.author.username}"></span>	
 						</div>
-						</div>
-					<div class="badge bg-light text-dark p-2 text-start">
 						<div th:text="${#temporals.format(question.createdate, 'yyyy-MM-dd HH:mm')}">질문등록일</div>
+						</div>	
+					<div class="badge bg-light text-dark p-2 text-start">		
 					</div>
 				</div>
-				<div class="my-3">
-				<!-- 수정 버튼 -->
+				
+				<div class="my-3">	
+				<!-- 질문 추천 버튼 -->
+				 	<a href="javascript:void(0);" 
+					th:data-uri="@{|/question/vote/${question.id}|}" 
+					class="recommend btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()">
+					추천
+					<span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+					</a>
+				<!-- 질문 수정 버튼 -->
 	               <a th:href="@{|/question/modify/${question.id}|}" 
 	               class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
 	               th:if="${question.author != null and question.author.username == #authentication.getPrincipal().getUsername()}"
 	               th:text="수정">수정 버튼 이름 표시</a>
-	               <!-- 삭제 버튼 -->
+	               <!-- 질문 삭제 버튼 -->
 	               <a href="javascript:void(0);" 
 					th:data-uri="@{|/question/delete/${question.id}|}" 
 					class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
@@ -44,7 +57,14 @@
 			<div class="card-body">
 				<div class="card-text" style="white-space: pre-line;"
 				th:text="${answer.content}">답변글 내용</div>
+				
 				<div class="d-flex justify-content-end">
+				<!-- 답변 수정 일시 출력-->	
+				<div th:if="${answer.modifydate !=null}" class="badge bg-light text-dark p-2 text-start mx-3">
+					<div class="mb-2">답변 수정 일시</div>
+					<div th:text="${#temporals.format(answer.modifydate, 'yyyy-MM-dd HH:mm')}"></div>
+				</div>
+					<!-- 답변 글쓴이 / 등록 일시 -->
 					<div class="badge bg-light text-dark p-2 text-start">
 						<div class="mb-2">
 							<span th:if="${answer.author !=null}" th:text="${answer.author.username}"></span>
