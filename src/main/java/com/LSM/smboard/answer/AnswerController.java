@@ -97,5 +97,15 @@ public class AnswerController {
 		
 				return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/disvote/{id}")
+	public String answerdisVote(Principal principal,@PathVariable("id") Integer id) {
+		Answer answer = answerService.getAnswer(id);
+		SiteUser siteUser = userService.getUser(principal.getName());
+		
+		answerService.disvote(answer, siteUser);
+		
+				return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	}
 	
 }

@@ -59,4 +59,9 @@ public class Answer {
 	Set<SiteUser> voter; //추천한 유저가 중복없이 여러명의 유저가 저장, 추천수
 	//set-> 중복 제거용 컬랙션
 	
+	//N:N관계 질문:추천자 
+		@ManyToMany
+		Set<SiteUser> disvoter; //추천한 유저가 중복없이 여러명의 유저가 저장, 추천수
+		//set-> 중복 제거용 컬랙션
+	
 }
