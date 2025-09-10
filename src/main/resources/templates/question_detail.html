@@ -72,8 +72,15 @@
 						<div th:text="${#temporals.format(answer.createdate, 'yyyy-MM-dd HH:mm')}">답변등록일</div>
 					</div>
 				</div>
+				<div class="my-3">
+				<!-- 답변 추천 버튼 -->
+				 	<a href="javascript:void(0);" 
+					th:data-uri="@{|/answer/vote/${answer.id}|}" 
+					class="recommend btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()">
+					추천
+					<span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+					</a>
 					<!--답변 수정 버튼 -->
-	             <div class="my-3">
 	               <a th:href="@{|/answer/modify/${answer.id}|}" 
 	               class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
 	               th:if="${answer.author != null and answer.author.username == #authentication.getPrincipal().getUsername()}"
@@ -113,6 +120,14 @@
          };
       });
    });
+  	const recommend_elements = document.getElementsByClassName("recommend");
+ 	 Array.from(recommend_elements).forEach(function (element) {
+     element.addEventListener('click', function () {
+        if (confirm("정말로 추천하시겠습니까?")) {
+           location.href = this.dataset.uri;
+        };
+     });
+  });
 	</script>
 	
 </html>

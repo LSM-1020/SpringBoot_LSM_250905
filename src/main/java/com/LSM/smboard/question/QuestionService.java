@@ -52,7 +52,12 @@ public class QuestionService {
 		questionRepository.delete(question);
 	}
 	
-	
+	public void vote(Question question, SiteUser siteUser) { //업데이트문으로 만들어줘야함
+		question.getVoter().add(siteUser);
+		//question은 추천을 받은 글의 번호로 조회한 엔티티
+		//question의 멤버인 voter를 get해서 voter에 추천을 누른 유저의 엔티티를 추가
+		questionRepository.save(question); //추천한 유저수가 변경된 질문 엔티티를 다시 save해서 갱신
+	}
 	
 	
 }

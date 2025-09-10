@@ -87,4 +87,15 @@ public class AnswerController {
 		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId()); //원글로 돌아감
 		//redirect->부모글(해당 답변이 달린 질문글)의 번호로 이동
 	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/vote/{id}")
+	public String answerVote(Principal principal,@PathVariable("id") Integer id) {
+		Answer answer = answerService.getAnswer(id);
+		SiteUser siteUser = userService.getUser(principal.getName());
+		
+		answerService.vote(answer, siteUser);
+		
+				return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	}
+	
 }
