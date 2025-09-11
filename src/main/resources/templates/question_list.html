@@ -6,10 +6,8 @@
 		</div>
 		<div class"col-6">
 			<div class="input-group">
-			<form th:action="@{/question/list}">
 				<input type="text" name="kw" id="search_kw" class="form-controle" th:value="${kw}">
-				<input class="btn btn-outline-secondary" type="submit" value="찾기" id="btn_search"></button>
-			</form>
+				<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>		
 			</div>
 		</div>	
 	</div>
@@ -65,6 +63,7 @@
 	<form th:action="@{/question/list}" method="get" id="searchForm">
 	<input type="hidden" id="kw" name="kw" th:value="${kw}">
 	<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	
 	</form>
 	
 	</div>
@@ -76,7 +75,23 @@
           document.getElementById('searchForm').submit();
     		});
 		 });
+ 	 const btn_search = document.getElementById("btn_search");
+ 	 	btn_search.addEventListener('click',function(){
+    	document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value=0;
+        //검색버튼 클릭시 kw검색란에 입력한 단어&page=0,1페이지 조회
+        document.getElementById('searchForm').submit();
+  		});
 	
+ 	 	//엔터로 검색되게
+ 	 	const searchInput = document.getElementById("search_kw");
+ 		searchInput.addEventListener("keydown", function (event) {
+ 			if (event.key === "Enter") {
+ 				event.preventDefault();  // 폼 자동 제출 방지
+ 				btn_search.click();      // 검색 버튼 클릭 이벤트 트리거
+ 			}
+ 		});
+
 	</script>
 	
 	
