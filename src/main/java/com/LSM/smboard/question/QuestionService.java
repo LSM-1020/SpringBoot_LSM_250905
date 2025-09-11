@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.LSM.smboard.DataNotFoundException;
@@ -42,6 +45,23 @@ public class QuestionService {
 		questionRepository.save(question);
 		
 	}
+	
+	//페이징 테스트
+		public Page<Question> getPageQuestions(int page) {
+			int size = 10; //1페이지당 10개씩 글 출력
+			
+			int startRow = page * size;
+			int endRow = startRow + size;
+			
+			List<Question> pageQuestionList = questionRepository.findQuestionsWithPaging(startRow, endRow);
+			
+			long totalQuestion = questionRepository.count(); //모든 글 갯수 가져오기
+			
+			Page<Question> pagingList = new PageImpl<>(pageQuestionList, PageRequest.of(page, size), totalQuestion);
+			
+			return pagingList;
+			
+		}
 	public void modify(Question question,String subject, String content) {
 		
 		question.setContent(content);

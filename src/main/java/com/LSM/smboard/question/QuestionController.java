@@ -46,19 +46,19 @@ public class QuestionController {
     }
 	
 	
-	@GetMapping(value = "/list")
-	//@ResponseBody
-	//public String list(Model model, @RequestParam(value="page", defaultValue = "0")int page) {
-	public String list(Model model) {	
-		//List<Question> questionList = questionRepository.findAll(); //모든 질문글 불러오기
-		List<Question> questionList = questionService.getList();
-		//Page<Question> paging = questionService.getList(page);
-		//게시글을 10개씩 자른 리스트
-		model.addAttribute("questionList", questionList);
-		//model.addAttribute("paging", paging);
-		
-		return "question_list";
-	}	
+//	@GetMapping(value = "/list")
+//	//@ResponseBody
+//	//public String list(Model model, @RequestParam(value="page", defaultValue = "0")int page) {
+//	public String list(Model model) {	
+//		//List<Question> questionList = questionRepository.findAll(); //모든 질문글 불러오기
+//		List<Question> questionList = questionService.getList();
+//		//Page<Question> paging = questionService.getList(page);
+//		//게시글을 10개씩 자른 리스트
+//		model.addAttribute("questionList", questionList);
+//		//model.addAttribute("paging", paging);
+//		
+//		return "question_list";
+//	}	
 
 	@GetMapping(value = "/detail/{id}") //파라미터이름 없이 값만 넘어왔을때 처리
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
@@ -97,6 +97,22 @@ public class QuestionController {
 		
 		return "redirect:/question/list"; //질문 리스트로 이동->반드시 redirect
 	}
+	@GetMapping(value = "/list")	
+	public String list2(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+		
+		int pageSize = 10;
+		
+		//List<Question> questionList = questionRepository.findAll(); //모든 질문글 불러오기
+		 //List<Question> questionList = questionService.getList();
+		Page<Question> paging = questionService.getPageQuestions(page);
+		//게시글 10개씩 자른 리스트->페이지당 10개->2페이지에 해당하는 글 10개 
+		model.addAttribute("paging", paging);
+		
+		return "question_list";
+	}	
+	
+	
+	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value="/modify/{id}")
 	public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
