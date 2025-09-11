@@ -8,21 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.LSM.smboard.DataNotFoundException;
 import com.LSM.smboard.answer.Answer;
 import com.LSM.smboard.user.SiteUser;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import javassist.SerialVersionUID;
 import lombok.RequiredArgsConstructor;
 
 @Service
