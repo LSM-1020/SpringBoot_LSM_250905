@@ -15,13 +15,14 @@ public class AnswerService {
 	@Autowired
 	private AnswerRepository answerRepository;
 	
-	public void create(Question question, String content, SiteUser author) {
+	public Answer create(Question question, String content, SiteUser author) {
 		Answer answer = new Answer();
 		answer.setContent(content);
 		answer.setQuestion(question);
 		answer.setCreatedate(LocalDateTime.now());
 		answer.setAuthor(author);
 		answerRepository.save(answer);
+		return answer;
 	}
 	public Answer getAnswer(Integer id) { //기본키인 답변id를 인수로 넣어주면 해당 엔티티 반환
 		Optional<Answer> _answer = answerRepository.findById(id); //기본키를 엔티티로 조회
